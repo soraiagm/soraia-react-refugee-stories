@@ -3,11 +3,9 @@ import { Route, Link } from 'react-router-dom';
 import './App.css';
 import Axios from 'axios';
 import Home from './components/Home/Home';
-import StorySubmitForm from './components/SubmitStory/StorySubmitForm';
+import SubmitStory from './components/SubmitStory/SubmitStory';
 import Stories from './components/StoriesPage/Stories';
-import Story from './components/StoriesPage/Story';
 import AdminLogin from './components/Administration/AdminLogin';
-// import Login from './components/Administration/Login';
 import Register from './components/Administration/Register';
 
  class App extends Component {
@@ -36,7 +34,7 @@ import Register from './components/Administration/Register';
      }
 
      componentDidMount() {
-       Axios.get("http://localhost:3000/stories")
+       Axios.get("")
          .then(response => {
            this.setState({
              stories: response.data
@@ -57,7 +55,7 @@ import Register from './components/Administration/Register';
                  <div className="nav-link">
                      <Link to="/">Home</Link>
                      <Link to="/stories">Stories</Link>
-                     <Link to="/storySubmitForm">Submit your story</Link>
+                     <Link to="/submitStory">Submit your story</Link>
                      <Link to="/adminLogin">Admin: Log In</Link>
                  </div>   
              </nav>
@@ -65,10 +63,10 @@ import Register from './components/Administration/Register';
           
                 <Route path="/" exact render={(props) => <Home stories={stories} />} />
                 <Route path="/stories" render={(props) => <Stories {...props} stories={this.state.stories} />} />
-                <Route path="/storySubmitForm" render={(props) => <StorySubmitForm {...props} stories={this.state.stories} />} />
+                {/* <Route path="/storySubmitForm" render={(props) => <StorySubmitForm {...props} stories={this.state.stories} />} /> */}
+                <Route exact path="/submitStory" component={SubmitStory} />
                 <Route exact path="/adminLogin" component={AdminLogin} />  
-                {/* <Route exact path="/login" component={Login} />  */}
-                <Route exact path="/Administration" component={Register} />
+                <Route exact path="/administration" component={Register} />
          </div>
        )
      }

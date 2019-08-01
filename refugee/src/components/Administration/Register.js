@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+
 
 class Register extends React.Component {
     constructor(){
@@ -51,7 +51,7 @@ class Register extends React.Component {
 
         else{
             axios
-            .post('https://refugee-stories-backend-rkolk.herokuapp.com/signup', this.state.credentials)
+            .post("https://refugee-stories.herokuapp.com/api/register", this.state.credentials)
 
             .then(response => {
                 console.log(response);

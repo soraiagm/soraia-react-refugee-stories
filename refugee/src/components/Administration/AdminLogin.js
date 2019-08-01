@@ -26,12 +26,12 @@ class AdminLogin extends React.Component {
     login = (event) => {
         event.preventDefault();
         if (!this.state.credentials.username || !this.state.credentials.password) {
-            alert("Please fill out all fields.");
+            alert("fill out all fields.");
         }
 
         else{
             axios
-                .post('https://refugee-stories-backend-rkolk.herokuapp.com/login', this.state.credentials)
+                .post(`https://refugee-stories.herokuapp.com/auth/adminLogin`,  this.state.credentials )
 
                 .then(response => {
                     console.log(response)
@@ -42,7 +42,7 @@ class AdminLogin extends React.Component {
 
                 .catch(err => {
                     console.log(err)
-                    alert("Something went wrong. Double-check your username and password to ensure they are correct.");
+                    alert("Your username or password is not correct.");
                     this.setState({ error: err })
                 });
         }
