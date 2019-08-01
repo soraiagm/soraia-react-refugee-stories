@@ -1,84 +1,116 @@
-import React, { Component } from 'react';
-import { register } from './UserFunctions';
+import React from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-
-class Register extends Component {
-    constructor(props){
-        super(props);
-        
-        this.state ={
-                first_name: '',
-                last_name: '',
-                email: "",
+class Register extends React.Component {
+    constructor(){
+        super();
+        this.state = {
+            credentials: {
+                username: '',
                 password: '',
-                errors: {}
-        }
+            },
+            confirmPass: '',
+            error: '',
+            
+            modal: false,
+        };
 
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onChange = this.onChange.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
-    onChange(event) {
+    handleChanges = event => {
         this.setState({
-            [event.target.name]: event.target.value
+            credentials: {
+                ...this.state.credentials,
+                [event.target.name]: event.target.value
+            }
         });
+    };
+
+    handleConfirmPassChanges = event => {
+        this.setState({
+            confirmPass: event.target.value,
+        })
+    }
+    
+
+    toggleModal() {
+        this.setState(prevState => ({
+            modal: !prevState.modal
+        }));
     }
 
-    onSubmit(event) {
-        event.preventDefault()
-
-        const newUser = { 
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            email: this.state.email,
-            password: this.state.password 
-    } 
-
-        register(newUser).then(res => {
-            this.props.history.push(`/login`)
-    })
-}   
-
-        render() {
-            return (
-                <div className="container">
-                    <form noValidate onSubmit={this.onSubmit}>
-                        <h1>Register</h1>
-                        <input
-                            type="text"
-                            name="first_name"
-                            placeholder="Enter your first name"
-                            value={this.state.first_name}
-                            onChange={this.onChange}
-                        />
-                        <input
-                            type="text"
-                            name="last_name"
-                            placeholder="Enter your last_name"
-                            value={this.state.last_name}
-                            onChange={this.onChange}
-                        /> 
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Enter email"
-                            value={this.state.email}
-                            onChange={this.onChange}
-                         /> 
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={this.state.password}
-                            onChange={this.onChange}
-                        /> 
-                    
-                    <button type="submit">Register</button>
-                  </form>
-                </div>
-            );
+    signUp = (event) => {
+        event.preventDefault();
+        if (this.state.credentials.password !== this.state.confirmPass) {
+            alert("Passwords do not match.");
+        } else if (!this.state.credentials.username || !this.state.credentials.password || !this.state.confirmPass) {
+            alert("Please fill out all fields.");
         }
-    }    
 
+        else{
+            axios
+            .post('https://refugee-stories-backend-rkolk.herokuapp.com/signup', this.state.credentials)
+
+            .then(response => {
+                console.log(response);
+                localStorage.setItem('jwt', response.data.token)
+                this.toggleModal();
+            })
+
+            .catch(err => {
+                console.log(err);
+                alert("Something went wrong. Try a different username; the one you have chosen may already be taken.");
+                this.setState({ error: err });
+            });
+        }
+    };
+
+    render(){
+        return(
+            <div className='signup-page'>
+                <h1>Administrator Sign Up</h1>
+                <form
+                    onFocus={event=> event.target.placeholder=""}
+                    onBlur={event=> event.target.placeholder=event.target.name}
+                    className='signup-form'
+                    onSubmit={this.signUp}
+                    autoComplete="off"
+                >
+                    <input
+                        className='signup-input'
+                        placeholder="username"
+                        type="text"
+                        name="username"
+                        value={this.state.username}
+                        onChange={this.handleChanges}
+                    ></input>
+
+                    <input
+                        className='signup-input'
+                        placeholder="password"
+                        type="password"
+                        name="password"
+                        value={this.state.password}
+                        onChange={this.handleChanges}
+                    ></input>
+
+                    <input
+                        className='signup-input'
+                        placeholder="confirm password"
+                        type="password"
+                        name="confirm password"
+                        value={this.state.confirmPass}
+                        onChange={this.handleConfirmPassChanges}
+                    ></input>
+                    
+                    <button type="submit">Sign Up</button>
+                </form>
+
+            </div>
+        );
+    }
+}
 
 export default Register;

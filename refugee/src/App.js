@@ -7,9 +7,8 @@ import StorySubmitForm from './components/SubmitStory/StorySubmitForm';
 import Stories from './components/StoriesPage/Stories';
 import Story from './components/StoriesPage/Story';
 import AdminLogin from './components/Administration/AdminLogin';
-import Login from './components/Administration/Login';
+// import Login from './components/Administration/Login';
 import Register from './components/Administration/Register';
-
 
  class App extends Component {
      state = {
@@ -67,9 +66,9 @@ import Register from './components/Administration/Register';
                 <Route path="/" exact render={(props) => <Home stories={stories} />} />
                 <Route path="/stories" render={(props) => <Stories {...props} stories={this.state.stories} />} />
                 <Route path="/storySubmitForm" render={(props) => <StorySubmitForm {...props} stories={this.state.stories} />} />
-                <Route exact path="/AdminLogin" component={AdminLogin} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="login" component={Login} />
+                <Route exact path="/adminLogin" component={AdminLogin} />  
+                {/* <Route exact path="/login" component={Login} />  */}
+                <Route exact path="/Administration" component={Register} />
          </div>
        )
      }

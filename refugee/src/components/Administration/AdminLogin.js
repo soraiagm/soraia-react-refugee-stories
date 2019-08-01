@@ -1,52 +1,94 @@
-import React, { Component } from 'react';
-import  jwt_decode  from 'jwt-decode';
+import React from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-class AdminLogin extends Component {
-    constructor(props){
-        super(props)
+class AdminLogin extends React.Component {
+    constructor(){
+        super();
         this.state = {
-            first_name: '',
-            last_name: '',
-            email: '',
-            errors: {}
+            credentials: {
+                username: '',
+                password: '',
+            },
+            error: '',
         }
-}
-
-    componentDidMount() {
-        const token = localStorage.usertoken
-        const decoded = jwt_decode(token)
-        this.setState({
-            first_name: decoded.first_name,
-            last_name: decoded.last_name,
-            email: decoded.email
-        })
     }
 
-    render() {
-        return (
-            <div className="container">
-                <div>
-                    <h1>Admin log in</h1>
+    handleChanges = event => {
+        this.setState({
+            credentials: {
+                ...this.state.credentials,
+                [event.target.name]: event.target.value
+            }
+        });
+    };
+
+    login = (event) => {
+        event.preventDefault();
+        if (!this.state.credentials.username || !this.state.credentials.password) {
+            alert("Please fill out all fields.");
+        }
+
+        else{
+            axios
+                .post('https://refugee-stories-backend-rkolk.herokuapp.com/login', this.state.credentials)
+
+                .then(response => {
+                    console.log(response)
+                    localStorage.setItem('jwt', response.data.token)
+                    window.location.reload();
+                    this.props.history.push('/submissions');
+                })
+
+                .catch(err => {
+                    console.log(err)
+                    alert("Something went wrong. Double-check your username and password to ensure they are correct.");
+                    this.setState({ error: err })
+                });
+        }
+    };
+
+    render(){
+        return(
+            <div className="login-page">
+                <h1>Administrator Login</h1>
+                
+                <form className="login-form"
+                    onFocus={event=> event.target.placeholder=""}
+                    onBlur={event=> event.target.placeholder=event.target.name}
+                    onSubmit={this.login}
+                    autoComplete="off"
+                >
+                    <input
+                        className="login-input"
+                        placeholder="username"
+                        type="text"
+                        name="username"
+                        value={this.state.username}
+                        onChange={this.handleChanges}
+                    ></input>
+
+                    <input
+                        className="login-input"
+                        placeholder="password"
+                        type="password"
+                        name="password"
+                        value={this.state.password}
+                        onChange={this.handleChanges}
+                    ></input>
+                    
+                    <button type="submit">Login</button>
+                </form>
+
+                <div className="login-signup">
+                    <span className="login-text">Register as an administrator</span>
+                    <Link to="/administration" className="login-link">Sign Up</Link>
                 </div>
-                <table className="table">
-                    <tbody>
-                        <tr>
-                            <td>First Name</td>
-                            <td>{this.state.first_name}</td>
-                        </tr>
-                        <tr>
-                            <td>Last Name</td>
-                            <td>{this.state.last_name}</td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td>{this.state.email}</td>
-                        </tr>
-                    </tbody>
-                </table>     
-            </div>     
+            </div>
         );
     }
-}   
+}
 
 export default AdminLogin;
+
+
