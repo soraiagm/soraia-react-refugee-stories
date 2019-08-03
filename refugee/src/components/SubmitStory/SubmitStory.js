@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 class SubmitStory extends React.Component {
     constructor(){
         super();
-        this.state={
+        this.state={ 
             submission:{
                 name: '',
                 title: '',
@@ -44,7 +44,7 @@ class SubmitStory extends React.Component {
 
         else{
             axios
-                .post('', this.state.submission)
+                .post("https://refugee-stories.herokuapp.com/api/stories")
 
                 .then(response => {
                     console.log(response);

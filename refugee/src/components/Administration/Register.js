@@ -7,13 +7,10 @@ class Register extends React.Component {
         super();
         this.state = {
             credentials: {
-                username: '',
-                password: '',
+                username: "",
+                password: "",
             },
-            confirmPass: '',
             error: '',
-            
-            modal: false,
         };
 
         this.toggleModal = this.toggleModal.bind(this);
