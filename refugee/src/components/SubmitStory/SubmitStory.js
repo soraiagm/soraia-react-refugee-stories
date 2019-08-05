@@ -11,7 +11,6 @@ class SubmitStory extends React.Component {
             submission:{
                 name: '',
                 title: '',
-                imageurl: '',
                 story: '',
             },
             error: '',
@@ -38,7 +37,7 @@ class SubmitStory extends React.Component {
 
     submitStory = (event) => {
         event.preventDefault();
-        if (!this.state.submission.name || !this.state.submission.title || !this.state.submission.imageurl || !this.state.submission.story) {
+        if (!this.state.submission.name || !this.state.submission.title || !this.state.submission.story) {
             alert("Fill all fields.");
         }
 
@@ -53,7 +52,6 @@ class SubmitStory extends React.Component {
                         submission: {
                             name: '',
                             title: '',
-                            imageurl: '',
                             story: '',
                         }
                     })

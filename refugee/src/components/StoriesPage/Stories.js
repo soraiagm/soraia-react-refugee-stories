@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import Story from "./Story";
-// import Axios from 'axios';
 
 
     
@@ -14,11 +12,11 @@ const Stories = props => {
                         <h3>{story.title}</h3>
                         <p>{story.story}</p>
                         
-                        <img
+                        {/* <img
                             className="story-list-image"
                             src={story.imageUrl}
                             alt={story.name}
-                        />
+                        /> */}
                     </Link>
                 ))}   
             </div>

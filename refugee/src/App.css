@@ -31,3 +31,45 @@
     transform: rotate(360deg);
   }
 }
+
+div.nav-link {
+  display: flex;
+  justify-content: space-around;
+}
+
+div.nav-link a {
+  color: white;
+  font-size: 2rem;
+}
+
+nav {
+  background: black;
+  color: white;
+}
+
+nav h1 {
+  margin: 40px;
+  font-size: 5rem;
+}
+
+.login-page {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form {
+  font-size: 1.5rem;
+}
+
+.login-text {
+  margin: 10px;
+}
+
+div.login-signup {
+  margin: 20px;
+}
+
+.admin-login {
+  margin: 20px;
+}

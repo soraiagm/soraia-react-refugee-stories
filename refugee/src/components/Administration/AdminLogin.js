@@ -46,7 +46,7 @@ class AdminLogin extends React.Component {
         render() {
             return ( 
                 <div className="login-page">
-                    <h1>Administrator Login</h1>
+                    <h1 className="Admin-login">Administrator Login</h1>
 
                     <form 
                         className="login-form"
